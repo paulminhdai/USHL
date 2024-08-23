@@ -16,7 +16,8 @@ def replace_pdf(pdf_path, new_text):
     pdf_document = fitz.open(pdf_path)
     
     # Open the image file
-    image_path = 'header.jpg'
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    image_path = os.path.join(current_directory, 'static', 'header.jpg')
     with Image.open(image_path) as img:
 
         # Iterate over each page in the PDF
