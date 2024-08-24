@@ -13,9 +13,10 @@ def extract_patient_info(file_path):
     dtype = {'Patient ID': str}
     df = pd.read_excel(file_path, dtype=dtype)
     df['DOB'] = df['DOB'].dt.strftime('%m/%d/%Y')
+    df['Lab Report Date'] = df['Lab Report Date'].dt.strftime('%m/%d/%Y')
 
     # Extract relevant columns
-    patient_info = df[['Date of Service', 'Patient Name', 'DOB', 'ADDRESS', 'SEX', 'Patient ID', 'SAMPLE ID', 'Cov-2', 'Flu', 'RSV']]
+    patient_info = df[['Date of Service', 'Patient Name', 'DOB', 'ADDRESS', 'SEX', 'Patient ID', 'SAMPLE ID', 'Lab Report Date', 'Cov-2', 'Flu', 'RSV']]
 
     return patient_info
 
@@ -39,6 +40,9 @@ def fill_reports(page, row, name, result):
     x0, y0, x1, y1 = instances_positions["add2"]
     page.insert_text((x0, y0+8), city_state_zip, fontsize=10, color=color("black"), fontname=fontName)
     
+    x0, y0, x1, y1 = instances_positions["lab_report_date"]
+    page.insert_text((x0-1, y0+9), row['Lab Report Date'], fontsize=11, color=color("black"), fontname=fontName)
+    
     x0, y0, x1, y1 = instances_positions["speciment_id"]
     page.insert_text((x0-1, y0+9), row['SAMPLE ID'], fontsize=11, color=color("black"), fontname=fontName)
     
@@ -54,8 +58,8 @@ def fill_reports(page, row, name, result):
     colar_bar_instance = instances_positions["color_bar"]
     page.draw_rect(colar_bar_instance, color=result_color, fill=result_color)
     x0, y0, x1, y1 = instances_positions["color_bar"]
-    page.insert_text((x0+20, y0+15), result_text, fontsize=12, color=color("white"), fontname=fontName)
-    page.insert_text((x0+350, y0+15), test_name, fontsize=12, color=color("white"), fontname=fontName)
+    page.insert_text((x0+15, y0+15), result_text, fontsize=12, color=color("white"), fontname=fontName)
+    page.insert_text((x0+305, y0+15), test_name, fontsize=10, color=color("white"), fontname=fontName)
     
     x0, y0, x1, y1 = instances_positions["mean"]
     page.insert_text((x0-2, y0+10), result_mean, fontsize=11, color=result_color, fontname=fontName)
@@ -82,6 +86,16 @@ def export_file(test_name, res, row, export_path):
 
 def generate_reports(file_path, export_directory):    
     patient_info = extract_patient_info(file_path)
+    
+    # row = patient_info.iloc[0]
+    # export_path = os.path.join(export_directory, row['Patient Name'])
+    # if not os.path.exists(export_path):
+    #     os.makedirs(export_path)
+        
+    # if (row['Cov-2'] == 'N'):
+    #     export_file('RSV', "neg", row, export_path)
+    # elif (row['Cov-2'] == 'P'):
+    #     export_file('RSV', "pos", row, export_path)
     
     for index, row in patient_info.iterrows():
         print("Processing patient " + str(index+1))
