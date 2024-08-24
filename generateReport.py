@@ -1,6 +1,6 @@
 import fitz  # PyMuPDF
 import pandas as pd
-from helper import color, instances_positions, fontName, split_address, get_color_test_description
+from generateReportHelper import color, instances_positions, fontName, split_address, get_color_test_description
 import os
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -23,7 +23,7 @@ def extract_patient_info(file_path):
 def fill_reports(page, row, name, result):
     # Patient info
     x0, y0, x1, y1 = instances_positions["patient_name"]
-    page.insert_text((x0, y0+10), row['Patient Name'], fontsize=11, color=color("black"), fontname=fontName)
+    page.insert_text((x0, y0+8), row['Patient Name'], fontsize=11, color=color("black"), fontname=fontName)
     
     x0, y0, x1, y1 = instances_positions["dob"]
     page.insert_text((x0-2, y0+9), row['DOB'], fontsize=11, color=color("black"), fontname=fontName)
@@ -87,16 +87,6 @@ def export_file(test_name, res, row, export_path):
 def generate_reports(file_path, export_directory):    
     patient_info = extract_patient_info(file_path)
     
-    # row = patient_info.iloc[0]
-    # export_path = os.path.join(export_directory, row['Patient Name'])
-    # if not os.path.exists(export_path):
-    #     os.makedirs(export_path)
-        
-    # if (row['Cov-2'] == 'N'):
-    #     export_file('RSV', "neg", row, export_path)
-    # elif (row['Cov-2'] == 'P'):
-    #     export_file('RSV', "pos", row, export_path)
-    
     for index, row in patient_info.iterrows():
         print("Processing patient " + str(index+1))
         # create new folder for each patient in the expected directory
@@ -121,8 +111,8 @@ def generate_reports(file_path, export_directory):
     
 
 # Example usage
-file_path = '/Users/daivuong/Desktop/test/overlayPDF/resource/reporttemplates/DATA SAMPLE.xlsx'
-export_path = '/Users/daivuong/Desktop/test/overlayPDF/resource/reporttemplates'
-generate_reports(file_path, export_path)
+# file_path = '/Users/daivuong/Desktop/test/overlayPDF/resource/reporttemplates/DATA SAMPLE.xlsx'
+# export_path = '/Users/daivuong/Desktop/test/overlayPDF/resource/reporttemplates'
+# generate_reports(file_path, export_path)
 
 
