@@ -69,29 +69,29 @@ notebook.pack(fill='both', expand=True)
 frame_fix_primex = ttk.Frame(notebook)
 notebook.add(frame_fix_primex, text="Fix Primex Report")
 
-tk.Label(frame_fix_primex, text="Browse Primex PDF Report File:").grid(row=0, column=0, padx=10, pady=5)
+tk.Label(frame_fix_primex, text="Primex Report:").grid(row=0, column=0, padx=10, pady=5)
 input_file_var_fix_primex = tk.StringVar()
 input_file_entry_fix_primex = tk.Entry(frame_fix_primex, textvariable=input_file_var_fix_primex, width=50)
 input_file_entry_fix_primex.grid(row=0, column=1, padx=10, pady=5)
 tk.Button(frame_fix_primex, text="Browse", command=select_file_fix_primex).grid(row=0, column=2, padx=10, pady=5)
 
-tk.Label(frame_fix_primex, text="Replace Referring Physician With:").grid(row=3, column=0, padx=10, pady=5)
+tk.Label(frame_fix_primex, text="Referring Physician:").grid(row=1, column=0, padx=10, pady=5)
 new_text_var_fix_primex = tk.StringVar()
-tk.Entry(frame_fix_primex, textvariable=new_text_var_fix_primex, width=50).grid(row=3, column=1, padx=10, pady=5)
+tk.Entry(frame_fix_primex, textvariable=new_text_var_fix_primex, width=50).grid(row=1, column=1, padx=10, pady=5)
 
 message_label_fix_primex = tk.Label(frame_fix_primex, text="", fg="black")
-message_label_fix_primex.grid(row=4, column=0, columnspan=3, pady=10)
+message_label_fix_primex.grid(row=2, column=0, columnspan=3, pady=10)
 
 input_file_entry_fix_primex.bind("<FocusIn>", clear_message_fix_primex)
 tk.Entry(frame_fix_primex, textvariable=new_text_var_fix_primex, width=50).bind("<FocusIn>", clear_message_fix_primex)
 
-tk.Button(frame_fix_primex, text="Submit", command=submit_fix_primex).grid(row=5, column=1, pady=30)
+tk.Button(frame_fix_primex, text="Submit", command=submit_fix_primex).grid(row=3, column=1, pady=30)
 
 # Frame for Generate Reports
 frame_generate_reports = ttk.Frame(notebook)
 notebook.add(frame_generate_reports, text="Generate Reports")
 
-tk.Label(frame_generate_reports, text="Input Excel File:").grid(row=0, column=0, padx=10, pady=5)
+tk.Label(frame_generate_reports, text="Spreadsheet File:").grid(row=0, column=0, padx=10, pady=5)
 input_file_var_generate_reports = tk.StringVar()
 input_file_entry_generate_reports = tk.Entry(frame_generate_reports, textvariable=input_file_var_generate_reports, width=50)
 input_file_entry_generate_reports.grid(row=0, column=1, padx=10, pady=5)
@@ -109,7 +109,8 @@ message_label_generate_reports.grid(row=2, column=0, columnspan=3, pady=10)
 input_file_entry_generate_reports.bind("<FocusIn>", clear_message_generate_reports)
 output_dir_entry_generate_reports.bind("<FocusIn>", clear_message_generate_reports)
 
-tk.Button(frame_generate_reports, text="Submit", command=submit_generate_reports).grid(row=3, column=1, pady=20)
+tk.Button(frame_generate_reports, text="Submit", command=submit_generate_reports).grid(row=3, column=1, pady=30)
+
 
 # Start the GUI event loop
 root.mainloop()
