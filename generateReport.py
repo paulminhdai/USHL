@@ -12,6 +12,7 @@ def extract_patient_info(file_path):
     # Load the Excel sheet
     dtype = {'Patient ID': str}
     df = pd.read_excel(file_path, dtype=dtype)
+    df['Date of Service'] = df['Date of Service'].dt.strftime('%m/%d/%Y')
     df['DOB'] = df['DOB'].dt.strftime('%m/%d/%Y')
     df['Lab Report Date'] = df['Lab Report Date'].dt.strftime('%m/%d/%Y')
 
@@ -111,8 +112,8 @@ def generate_reports(file_path, export_directory):
     
 
 # Example usage
-# file_path = '/Users/daivuong/Desktop/test/overlayPDF/resource/reporttemplates/DATA SAMPLE.xlsx'
-# export_path = '/Users/daivuong/Desktop/test/overlayPDF/resource/reporttemplates'
+# file_path = '/Users/daivuong/Downloads/missing slips MAR09.xlsx'
+# export_path = '/Users/daivuong/Downloads/test'
 # generate_reports(file_path, export_path)
 
 
