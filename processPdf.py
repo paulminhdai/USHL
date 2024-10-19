@@ -2,7 +2,7 @@ from PIL import Image
 import fitz  # PyMuPDF
 import os
 
-def replace_pdf(pdf_path, old_text, new_text):
+def replace_pdf(pdf_path, new_text):
     """
     Overlay an image on all pages of a PDF at a specified position.
 
@@ -16,7 +16,8 @@ def replace_pdf(pdf_path, old_text, new_text):
     pdf_document = fitz.open(pdf_path)
     
     # Open the image file
-    image_path = 'header.jpg'
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    image_path = os.path.join(current_directory, 'static', 'header.jpg')
     with Image.open(image_path) as img:
 
         # Iterate over each page in the PDF
@@ -26,7 +27,7 @@ def replace_pdf(pdf_path, old_text, new_text):
             position = (0,0)
             replace_header_in_pdf(page, img, image_path, position)
             
-            replace_text_in_pdf(page, old_text, new_text)
+            replace_text_in_pdf(page, new_text)
         
         # Save the updated PDF
         head, tail = os.path.split(pdf_path)
@@ -65,39 +66,30 @@ def replace_header_in_pdf(page, img, image_path, position):
     # Overlay the image on the page
     page.insert_image(rect, filename=image_path)
 
-def replace_text_in_pdf(page, old_text, new_text):
+def replace_text_in_pdf(page, new_text):
     """
     Replace specified text on a PDF page with new text.
     Searches for `old_text` on the `page`, covers it with a white rectangle, and inserts `new_text` at the same location.
 
     :param page: fitz.Page The page to modify (from a fitz.Document).
-    :param old_text: str The text to be replaced.
     :param new_text: str The text to insert.
     :return: None Modifies the page in place.
     """
-    # Search for the old text
-    text_instances = page.search_for(old_text)
-    print(text_instances)
+    # Position of Refferring Physician Name
+    instance = fitz.Rect(421.2001037597656, 103.31600189208984, 529.2002563476562, 118.30400085449219)
     
-    # Cover the old text with white rectangles
-    for inst in text_instances:
-        print(inst)
-        # Cover the text with a white with slight yellowish tint
-        rgba_color = (255, 251, 239, 255)  # White with slight yellowish tint
-        rgb_color = (rgba_color[0] / 255.0, rgba_color[1] / 255.0, rgba_color[2] / 255.0)
-        page.draw_rect(inst, color=rgb_color, fill=rgb_color)
-        
-        # Calculate the position and size for the new text
-        x0, y0, x1, y1 = inst
-        text_rect = fitz.Rect(x0, y0, x1, y1)
-        
-        # # Insert the new text
-        # page.insert_textbox(text_rect, new_text, fontsize=48, color=(0, 0, 0))
-        
-        # Insert the new text at the adjusted position
-        page.insert_text((x0-2, y0+10), new_text, fontsize=11, color=(0, 0, 0), fontname='Courier')
+    # Cover the text with a white with slight yellowish tint
+    rgba_color = (255, 251, 239, 255)  # White with slight yellowish tint
+    rgb_color = (rgba_color[0] / 255.0, rgba_color[1] / 255.0, rgba_color[2] / 255.0)
+    instance1 = fitz.Rect(411.2001037597656, 103.31600189208984, 529.2002563476562, 118.30400085449219)
+    page.draw_rect(instance1, color=rgb_color, fill=rgb_color)
+    
+    # Calculate the position and size for the new text
+    x0, y0, x1, y1 = instance
+    # Insert the new text at the adjusted position
+    page.insert_text((x0-2, y0+10), new_text, fontsize=11, color=(0, 0, 0), fontname='Courier')
     
 
 # Example usage
 # Position is (x, y) for the top-left corner of the image
-# replace_pdf('input.pdf', ', old_text='L Dellamaggiora', new_text='Roman Testing')
+# replace_pdf('test/input.pdf', new_text='Roman Testing')
