@@ -31,8 +31,17 @@ To set up the project, follow these steps:
     ```bash
     python3 main.py
     ```
-
-5. Deactivate the virtual environment when done:
+    
+5. Export application to exe file:
+    ```bash
+    pyinstaller --onefile --name YourDesiredName main.py
+    ```
+    OR if you want to include an icon for your executable, you can use the --icon option
+    ```bash
+   pyinstaller --onefile --name my_app --icon=icon.ico app.py
+    ```
+    
+6. Deactivate the virtual environment when done:
     ```bash
     deactivate
     ```
