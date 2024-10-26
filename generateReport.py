@@ -17,7 +17,7 @@ def extract_patient_info(file_path):
     df['Lab Report Date'] = df['Lab Report Date'].dt.strftime('%m/%d/%Y')
 
     # Extract relevant columns
-    patient_info = df[['Date of Service', 'Patient Name', 'DOB', 'ADDRESS', 'SEX', 'Patient ID', 'SAMPLE ID', 'Lab Report Date', 'Cov-2', 'Flu', 'RSV']]
+    patient_info = df[['Date of Service', 'Patient Name', 'DOB', 'ADDRESS', 'SEX', 'Patient ID', 'SAMPLE ID', 'Lab Report Date', 'Physician', 'Cov-2', 'Flu', 'RSV']]
 
     return patient_info
 
@@ -52,6 +52,9 @@ def fill_reports(page, row, name, result):
     
     x0, y0, x1, y1 = instances_positions["date_of_service"]
     page.insert_text((x0-2, y0+10), row['Date of Service'], fontsize=11, color=color("black"), fontname=fontName)
+    
+    x0, y0, x1, y1 = instances_positions["physician"]
+    page.insert_text((x0-2, y0+10), row['Physician'], fontsize=11, color=color("black"), fontname=fontName)
     
     # test result
     test_name, result_color, result_text, result_mean, result_sign, description = get_color_test_description(name, result)
