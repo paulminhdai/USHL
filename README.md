@@ -40,8 +40,12 @@ To set up the project, follow these steps:
     ```bash
    pyinstaller --onefile --name my_app --icon=icon.ico app.py
     ```
+    try this
+   ```bash
+   pyinstaller --add-data="static:static" --onefile --windowed --name USHLReport_v main.py
+   ```
     
-6. Deactivate the virtual environment when done:
+7. Deactivate the virtual environment when done:
     ```bash
     deactivate
     ```
