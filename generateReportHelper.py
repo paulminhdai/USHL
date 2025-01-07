@@ -109,13 +109,46 @@ def get_color_test_description(name, result):
         
     test_name = ""
     if(name == "Cov-2"):
-        test_name = "SARS-Cov-2/Covid-19"
+        test_name = "SARS COV 2 RNA (COVID-19), QL, RRT-PCR, RESPIRATORY SPECIMEN"
     elif(name == "Flu"):
-        test_name = "Flu A & B"
+        test_name = "INFLUENZA VIRUS A + B and SARS Cov 2 (COVID-19) RSV RNA panel, NAA+probe, respiratory specimen"
     elif(name == "RSV"):
-        test_name = "Respiratory Syncytial Virus (RSV)" 
+        test_name = "RSV (RESPIRATORY SYNCYTIAL VIRUS), RNA, QUAL, PCR" 
     
     description = name + "_" + result
     
     return (test_name, result_color, result_text, result_mean, result_sign, descriptions[description])
     
+def wrap_text(page, x0, y0, text, fontsize=8, color=color("white"), fontname=fontName, max_width=50): 
+  """
+  Inserts text with word wrapping into a PDF page.
+
+  Args:
+    page: The PyMuPDF page object.
+    x0: x-coordinate of the starting point.
+    y0: y-coordinate of the starting point.
+    text: The text to be inserted.
+    fontsize: Font size.
+    color: Text color.
+    fontname: Font name.
+    max_width: Maximum width of the text block.
+
+  Returns:
+    None
+  """
+
+  # Split text into lines with a maximum width
+  lines = []
+  current_line = ""
+  for word in text.split():
+    if len(current_line + " " + word) <= max_width:
+      current_line += " " + word
+    else:
+      lines.append(current_line.strip())
+      current_line = word
+  lines.append(current_line.strip())
+
+  # Insert lines with appropriate line spacing
+  line_height = fontsize * 1.2  # Adjust line spacing as needed
+  for i, line in enumerate(lines):
+    page.insert_text((x0, y0 + i * line_height), line, fontsize=fontsize, color=color, fontname=fontname)

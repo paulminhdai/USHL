@@ -1,6 +1,6 @@
 import fitz  # PyMuPDF
 import pandas as pd
-from generateReportHelper import color, instances_positions, fontName, split_address, get_color_test_description
+from generateReportHelper import color, instances_positions, fontName, split_address, get_color_test_description, wrap_text
 import os
 
 current_directory = os.path.dirname(os.path.abspath(__file__))
@@ -62,8 +62,9 @@ def fill_reports(page, row, name, result):
     colar_bar_instance = instances_positions["color_bar"]
     page.draw_rect(colar_bar_instance, color=result_color, fill=result_color)
     x0, y0, x1, y1 = instances_positions["color_bar"]
-    page.insert_text((x0+15, y0+15), result_text, fontsize=12, color=color("white"), fontname=fontName)
-    page.insert_text((x0+305, y0+15), test_name, fontsize=10, color=color("white"), fontname=fontName)
+    page.insert_text((x0+7, y0+15), result_text, fontsize=12, color=color("white"), fontname=fontName)
+    # page.insert_text((x0+205, y0+15), test_name, fontsize=8, color=color("white"), fontname=fontName)
+    wrap_text(page, x0+270, y0+10, test_name, max_width=50) 
     
     x0, y0, x1, y1 = instances_positions["mean"]
     page.insert_text((x0-2, y0+10), result_mean, fontsize=11, color=result_color, fontname=fontName)
